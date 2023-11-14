@@ -26,7 +26,8 @@ enum PaintMode {Pixel, Area};
 
 public class UI extends JFrame {
 	private JTextField msgField;
-	private JTextArea chatArea;
+//	private JTextArea chatArea;
+	private ChatArea chatArea;
 	private JPanel pnlColorPicker;
 	private JPanel paintPanel;
 	private JToggleButton tglPen;
@@ -225,9 +226,10 @@ public class UI extends JFrame {
 			
 		});
 		
-		chatArea = new JTextArea();		// the read only text area for showing messages
-		chatArea.setEditable(false);
-		chatArea.setLineWrap(true);
+//		chatArea = new JTextArea();		// the read only text area for showing messages
+//		chatArea.setEditable(false);
+//		chatArea.setLineWrap(true);
+		chatArea =  ChatArea.getInstance(this);
 		
 		JScrollPane scrollPaneRight = new JScrollPane(chatArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPaneRight.setPreferredSize(new Dimension(300, this.getHeight()));
@@ -253,7 +255,15 @@ public class UI extends JFrame {
 	 * @param text - user inputted text
 	 */
 	private void onTextInputted(String text) {
-		chatArea.setText(chatArea.getText() + text + "\n");
+		SwingUtilities.invokeLater(() -> {
+//		chatArea.setText(chatArea.getText() + text + "\n");
+			if (text.equals(" "))
+				chatArea.add(new ChatArea.Message(text, "Me"));
+			else
+				chatArea.add(new ChatArea.Message("I have responded", "Person X"));
+			chatArea.revalidate();
+			chatArea.repaint();
+		});
 	}
 	
 	/**
