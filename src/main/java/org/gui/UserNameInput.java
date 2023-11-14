@@ -5,7 +5,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class UserNameInput  extends JDialog {
+public class UserNameInput extends JDialog {
     private static UserNameInput instance = null;
     private final JTextField inputField;
     private String inputText;
@@ -33,7 +33,9 @@ public class UserNameInput  extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 if (inputField.getText().isEmpty()) return;
                 inputText = inputField.getText();
+                ((UI)parent).loadusername(inputText);
                 dispose();
+
             }
         });
 

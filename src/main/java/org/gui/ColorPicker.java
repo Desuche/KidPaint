@@ -29,6 +29,7 @@ public class ColorPicker extends JDialog {
 	 * @return
 	 */
 	public static ColorPicker getInstance(JFrame parent) {
+		System.out.println(UserNameInput.getInstance(parent).getInputText());
 		if (instance == null)
 			instance = new ColorPicker(parent);
 		return instance;

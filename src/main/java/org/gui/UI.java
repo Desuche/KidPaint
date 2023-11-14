@@ -1,11 +1,8 @@
 package org.gui;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
@@ -15,14 +12,13 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import javax.swing.JScrollPane;
-import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 
@@ -35,7 +31,10 @@ public class UI extends JFrame {
 	private JPanel paintPanel;
 	private JToggleButton tglPen;
 	private JToggleButton tglBucket;
-	
+	private JButton undoButton;
+	private JPanel sendTextArea;
+	private JLabel sendTextPrompt;
+	protected String username = " .. ";
 	private static UI instance;
 	private int selectedColor = -543230; 	//golden
 	
@@ -131,7 +130,7 @@ public class UI extends JFrame {
 		JPanel toolPanel = new JPanel();
 		basePanel.add(toolPanel, BorderLayout.NORTH);
 		toolPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
+
 		
 		pnlColorPicker = new JPanel();
 		pnlColorPicker.setPreferredSize(new Dimension(24, 24));
@@ -164,6 +163,9 @@ public class UI extends JFrame {
 		
 		tglBucket = new JToggleButton("Bucket");
 		toolPanel.add(tglBucket);
+
+		undoButton = new JButton("Undo");
+		toolPanel.add(undoButton);
 		
 		// change the paint mode to PIXEL mode
 		tglPen.addActionListener(new ActionListener() {
@@ -184,16 +186,29 @@ public class UI extends JFrame {
 				paintMode = PaintMode.Area;
 			}
 		});
+
+		undoButton.addActionListener((ActionEvent e) -> {
+			//TODO
+			//code for triggering undo
+			System.out.println("Undo triggered");
+
+		});
 		
 		JPanel msgPanel = new JPanel();
 		
 		getContentPane().add(msgPanel, BorderLayout.EAST);
 		
 		msgPanel.setLayout(new BorderLayout(0, 0));
-		
+
+		sendTextArea = new JPanel();
+		sendTextArea.setLayout(new BorderLayout(0,0));
+		sendTextPrompt = new JLabel(":::");
+		sendTextArea.add(sendTextPrompt, BorderLayout.WEST);
+
 		msgField = new JTextField();	// text field for inputting message
-		
-		msgPanel.add(msgField, BorderLayout.SOUTH);
+		sendTextArea.add(msgField, BorderLayout.CENTER);
+		msgPanel.add(sendTextArea, BorderLayout.SOUTH);
+
 		
 		// handle key-input event of the message field
 		msgField.addKeyListener(new KeyListener() {
@@ -293,10 +308,15 @@ public class UI extends JFrame {
 	 * @param data
 	 * @param blockSize
 	 */
-	public void setData(int[][] data, int blockSize) {
+	public void setData(int[][] data, int blockSize)  {
 		this.data = data;
 		this.blockSize = blockSize;
 		paintPanel.setPreferredSize(new Dimension(data.length * blockSize, data[0].length * blockSize));
 		paintPanel.repaint();
+	}
+
+	public void loadusername(String username) {
+		this.username = username;
+		sendTextPrompt.setText("Send message as \"" + username + "\":");
 	}
 }
