@@ -12,8 +12,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
 import java.util.List;
 import java.awt.FlowLayout;
@@ -255,14 +253,15 @@ public class UI extends JFrame {
 	 * @param text - user inputted text
 	 */
 	private void onTextInputted(String text) {
+		if (text.isEmpty()) return;
+
 		SwingUtilities.invokeLater(() -> {
-//		chatArea.setText(chatArea.getText() + text + "\n");
-			if (text.equals(" "))
-				chatArea.add(new ChatArea.Message(text, "Me"));
+			//send message to server
+			//TODO
+			if (text.startsWith("me "))
+				chatArea.addMessage(text, "Me");
 			else
-				chatArea.add(new ChatArea.Message("I have responded", "Person X"));
-			chatArea.revalidate();
-			chatArea.repaint();
+				chatArea.addMessage(text, "Person X");
 		});
 	}
 	
