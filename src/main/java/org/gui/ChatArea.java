@@ -83,7 +83,7 @@ public class ChatArea extends JPanel {
             footer.setBackground(messageColor);
             footer.setForeground(textColor);
             footer.setHorizontalAlignment(SwingConstants.RIGHT);
-            footer.setFont(header.getFont().deriveFont(Font.ITALIC,9.0F));
+            footer.setFont(footer.getFont().deriveFont(Font.ITALIC,9.0F));
             footer.setEditable(false);
             footer.setBorder(new EmptyBorder(0, 0, 0, 0));
 

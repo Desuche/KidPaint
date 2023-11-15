@@ -13,6 +13,8 @@ public class UserNameInput extends JDialog {
     private final JTextField inputField;
     private String inputText;
 
+    private StudioSelectionPopup studioSelectionPopup;
+
     public static UserNameInput getInstance(JFrame parent) {
         if (instance == null)
             instance = new UserNameInput(parent);
@@ -28,6 +30,7 @@ public class UserNameInput extends JDialog {
         setLayout(new BorderLayout());
 
         JLabel label = new JLabel("Enter your username.");
+        label.setFont(label.getFont().deriveFont(Font.BOLD,15.0F));
         add(label, BorderLayout.NORTH);
 
         inputField = new JTextField();
@@ -66,6 +69,13 @@ public class UserNameInput extends JDialog {
         inputText = inputField.getText();
         ((UI)parent).loadusername(inputText);
         dispose();
+        if (studioSelectionPopup != null){
+            studioSelectionPopup.setVisible(true);
+        }
+    }
+
+    public void setVisibleAfterClose(StudioSelectionPopup studioSelectionPopup){
+        this.studioSelectionPopup = studioSelectionPopup;
     }
 
 

@@ -12,6 +12,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.awt.FlowLayout;
@@ -31,6 +34,8 @@ public class UI extends JFrame {
 	private JToggleButton tglPen;
 	private JToggleButton tglBucket;
 	private JButton undoButton;
+	private JButton loadButton;
+	private JButton saveButton;
 	private JPanel sendTextArea;
 	private JLabel sendTextPrompt;
 	protected String username = " .. ";
@@ -165,6 +170,43 @@ public class UI extends JFrame {
 
 		undoButton = new JButton("Undo");
 		toolPanel.add(undoButton);
+
+		loadButton = new JButton("Load File");
+		loadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int option = fileChooser.showOpenDialog(UI.this);
+				if (option == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					loadDrawingFromFile(selectedFile);
+					JOptionPane.showMessageDialog(UI.this,
+							"Loading file: " + selectedFile.getAbsolutePath());
+				} else {
+					JOptionPane.showMessageDialog(UI.this,
+							"Load operation canceled");
+				}
+			}
+		});
+		toolPanel.add(loadButton);
+
+		saveButton = new JButton("Save to file");
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser fileChooser = new JFileChooser();
+				int option = fileChooser.showSaveDialog(UI.this);
+				if (option == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					saveDrawingToFile(selectedFile);
+				} else {
+					JOptionPane.showMessageDialog(UI.this,
+							"Save command canceled");
+				}
+			}
+		});
+
+		toolPanel.add(saveButton);
+
+
 		
 		// change the paint mode to PIXEL mode
 		tglPen.addActionListener(new ActionListener() {
@@ -223,10 +265,7 @@ public class UI extends JFrame {
 			}
 			
 		});
-		
-//		chatArea = new JTextArea();		// the read only text area for showing messages
-//		chatArea.setEditable(false);
-//		chatArea.setLineWrap(true);
+
 		chatArea =  ChatArea.getInstance(this);
 		
 		JScrollPane scrollPaneRight = new JScrollPane(chatArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
@@ -327,5 +366,24 @@ public class UI extends JFrame {
 	public void loadusername(String username) {
 		this.username = username;
 		sendTextPrompt.setText("Send message as \"" + username + "\":");
+	}
+
+	private void loadDrawingFromFile(File file){
+		//TODO
+	}
+
+	private void saveDrawingToFile( File selectedFile){
+		//sample
+		//TODO
+		String textData = "This is the text data that will be written to the file.";
+
+		try (PrintWriter writer = new PrintWriter(selectedFile)) {
+			writer.write(textData);
+			JOptionPane.showMessageDialog(UI.this,
+					"File saved successfully!");
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(UI.this,
+					"Error saving file: " + ex.getMessage());
+		}
 	}
 }
