@@ -16,6 +16,7 @@ import java.awt.Dialog.ModalExclusionType;
 import java.awt.Window.Type;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.InputStream;
 
 public class ColorPicker extends JDialog {
 	BufferedImage colorImage;
@@ -58,8 +59,15 @@ public class ColorPicker extends JDialog {
 		
 		try {
 			// load the color-spectrum image
-			colorImage = ImageIO.read(getClass().getResourceAsStream("/color-spectrum.jpg"));
-//			colorImage = ImageIO.read(new File("color-spectrum.jpg"));
+			try{
+				InputStream image = getClass().getResourceAsStream("/color-spectrum.jpg");
+				if (image == null) throw new IOException();
+				colorImage = ImageIO.read(image);
+			} catch (IOException e){
+				colorImage = ImageIO.read(new File("color-spectrum.jpg"));
+			}
+
+
 			if (colorImage != null) {
 				panel.setPreferredSize(new Dimension(colorImage.getWidth(), colorImage.getHeight()));
 			} else
