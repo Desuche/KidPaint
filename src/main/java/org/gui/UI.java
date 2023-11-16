@@ -443,6 +443,7 @@ public class UI extends JFrame {
 		if (InternalServer.isRunning()){
 			data = newData;
 			blockSize = newBlockSize;
+			paintPanel.repaint();
 			//send this update to all your connections
 		} else {
 			//send the update to the master server

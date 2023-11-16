@@ -87,7 +87,7 @@ public class StudioSelectionPopup extends JDialog {
         List<String[]> servers = new ArrayList<>();
         servers.add(new String[]{"Destiny", "128.0.168.95"});
         servers.add(new String[]{"Ritik", "128.0.168.135"});
-        servers.add(new String[]{"Samir", "128.0.168.210"});
+        servers.add(new String[]{"Riasad", "128.0.168.210"});
 
         return servers;
     }

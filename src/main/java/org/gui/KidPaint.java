@@ -9,7 +9,7 @@ public class KidPaint {
 
 
 
-		ui.setData(new int[50][50], 16);	// set the data array and block size. comment this statement to use the default data array and block size.
+		ui.setData(new int[200][200], 4);	// set the data array and block size. comment this statement to use the default data array and block size.
 		ui.setSize(new Dimension(1130, 900));
 		ui.setVisible(true);				// set the ui
 
