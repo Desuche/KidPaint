@@ -1,5 +1,7 @@
 package org.gui;
 
+import org.server.InternalServer;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -96,8 +98,7 @@ public class StudioSelectionPopup extends JDialog {
     }
 
     private void startServer(){
-        //Server.getInstance().start();
-        //TODO
+        InternalServer.getInstance();
         JOptionPane.showMessageDialog(parent,"Started your own studio");
     }
 
