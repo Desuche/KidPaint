@@ -16,4 +16,8 @@ public class InternalServer {
         return (instance != null);
     }
 
+    private InternalServer(){
+        System.out.println("Internal Server started");
+    }
+
 }

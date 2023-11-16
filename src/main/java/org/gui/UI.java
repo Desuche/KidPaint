@@ -384,7 +384,7 @@ public class UI extends JFrame {
 			for (int i = 0; in.hasNextLine();i++){
 				String[] row = in.nextLine().split(" ");
 				for (int j = 0; j < row.length; j++)
-					data[j][i] = Integer.valueOf(row[j]);
+					newData[j][i] = Integer.valueOf(row[j]);
 
 			}
 
