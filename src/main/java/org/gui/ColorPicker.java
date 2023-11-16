@@ -58,7 +58,8 @@ public class ColorPicker extends JDialog {
 		
 		try {
 			// load the color-spectrum image
-			colorImage = ImageIO.read(new File("color-spectrum.jpg"));
+			colorImage = ImageIO.read(getClass().getResourceAsStream("/color-spectrum.jpg"));
+//			colorImage = ImageIO.read(new File("color-spectrum.jpg"));
 			if (colorImage != null) {
 				panel.setPreferredSize(new Dimension(colorImage.getWidth(), colorImage.getHeight()));
 			} else
