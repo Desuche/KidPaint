@@ -1,5 +1,7 @@
 package org.gui;
 
+import org.server.InternalServer;
+
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -13,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
@@ -21,6 +24,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Color;
+import java.util.Scanner;
 import javax.swing.border.LineBorder;
 
 enum PaintMode {Pixel, Area};
@@ -369,21 +373,80 @@ public class UI extends JFrame {
 	}
 
 	private void loadDrawingFromFile(File file){
-		//TODO
-	}
+		try (Scanner in = new Scanner(file)) {
+			int rows = Integer.valueOf(in.next());
+			int cols = Integer.valueOf(in.next());
+			int[][] newData = new int[rows][cols];
+			int newBlockSize = Integer.valueOf(in.next());
+			in.nextLine();
+
+
+			for (int i = 0; in.hasNextLine();i++){
+				String[] row = in.nextLine().split(" ");
+				for (int j = 0; j < row.length; j++)
+					data[j][i] = Integer.valueOf(row[j]);
+
+			}
+
+			sendLoadDataToServer(newData, newBlockSize);
+			paintPanel.repaint();
+        } catch (FileNotFoundException e) {
+			JOptionPane.showMessageDialog(UI.this,
+					"File not found!");
+        }
+    }
 
 	private void saveDrawingToFile( File selectedFile){
-		//sample
-		//TODO
-		String textData = "This is the text data that will be written to the file.";
+		System.out.println(data[0][0]);
+		System.out.println(data.length);
+		System.out.println(data[0].length);
+
+		for (int col = 0; col < data.length; col++){
+			for (int row = 0; row < data[col].length; row++){
+				System.out.print(data[col][row]);
+				System.out.printf(" ");
+			}
+			System.out.println();
+		}
 
 		try (PrintWriter writer = new PrintWriter(selectedFile)) {
-			writer.write(textData);
+			writer.write(String.valueOf(data.length));
+			writer.write(" ");
+			writer.write(String.valueOf(data[0].length));
+			writer.write(" ");
+			writer.write(String.valueOf(blockSize));
+			writer.println();
+
+			for (int col = 0; col < data.length; col++){
+				for (int row = 0; row < data[col].length; row++){
+					writer.write(String.valueOf(data[col][row]));
+					writer.write(" ");
+				}
+				writer.println();
+			}
+
+
+			writer.flush();
+
 			JOptionPane.showMessageDialog(UI.this,
 					"File saved successfully!");
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(UI.this,
 					"Error saving file: " + ex.getMessage());
 		}
+
+
+	}
+
+
+	private void sendLoadDataToServer(int[][] newData, int newBlockSize){
+		if (InternalServer.isRunning()){
+			data = newData;
+			blockSize = newBlockSize;
+			//send this update to all your connections
+		} else {
+			//send the update to the master server
+		}
+
 	}
 }
