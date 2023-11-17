@@ -1,5 +1,4 @@
 package org.gui;
-//Riasad
 import org.server.InternalServer;
 
 import javax.swing.*;
