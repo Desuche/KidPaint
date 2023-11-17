@@ -1,5 +1,5 @@
 package org.gui;
-
+//
 import org.server.InternalServer;
 
 import javax.swing.*;
@@ -27,6 +27,7 @@ import java.awt.Color;
 import java.util.Scanner;
 import javax.swing.border.LineBorder;
 
+//This is a test origion2
 enum PaintMode {Pixel, Area};
 
 public class UI extends JFrame {
